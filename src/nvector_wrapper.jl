@@ -11,7 +11,7 @@ immutable NVector <: DenseVector{realtype}
     v::Vector{realtype}     # array that is referenced by N_Vector
 
     function NVector(v::Vector{realtype})
-        nv = new(Ref{N_Vector}(N_VMake_Serial(length(v), pointer(v))), v)
+        nv = new(Ref{N_Vector}(N_VMake_Serial(length(v), v)), v)
         finalizer(nv.ref_nv, release_handle)
         return nv
     end
