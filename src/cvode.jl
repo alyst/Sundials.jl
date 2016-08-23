@@ -160,7 +160,7 @@ function __CVodeGetDky(cvode_mem::CVODEMemPtr,t::realtype,k::Cint,dky::N_Vector)
     ccall((:CVodeGetDky,libsundials_cvode),Cint,(CVODEMemPtr,realtype,Cint,N_Vector),cvode_mem,t,k,dky)
 end
 
-CVodeGetDky(cvode_mem,t,k,dky) = __CVodeGetDky(convert(CVODEMemPtr,cvode_mem),t,k,convert(N_Vector,dky))
+CVodeGetDky(cvode_mem,t,k,dky) = __CVodeGetDky(convert(CVODEMemPtr,cvode_mem),t,Cint(k),convert(N_Vector,dky))
 
 function __CVodeGetWorkSpace(cvode_mem::CVODEMemPtr,lenrw::Ptr{Clong},leniw::Ptr{Clong})
     ccall((:CVodeGetWorkSpace,libsundials_cvode),Cint,(CVODEMemPtr,Ptr{Clong},Ptr{Clong}),cvode_mem,lenrw,leniw)

@@ -160,7 +160,7 @@ function cvode_fulloutput(f::Function, y0::Vector{Float64}, tspan::Vector{Float6
         error("Failed to allocate CVODE solver object")
     end
 
-    yres = Vector{Float64}()
+    yres = Vector{Vector{Float64}}()
     ts   = [t0]
     try
         userfun = UserFunctionAndData(f, userdata)
@@ -179,7 +179,7 @@ function cvode_fulloutput(f::Function, y0::Vector{Float64}, tspan::Vector{Float6
                 push!(ts, tout...)
             end
             # Fix the end
-            flag = @checkflag CVodeGetDky(mem, t, 0, yres[end])
+            flag = @checkflag CVodeGetDky(mem, t, Cint(0), yres[end])
             ts[end] = t
         end
     finally

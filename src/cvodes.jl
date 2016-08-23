@@ -314,7 +314,7 @@ function __CVodeGetDky(cvode_mem::CVODEMemPtr,t::realtype,k::Cint,dky::N_Vector)
     ccall((:CVodeGetDky,libsundials_cvodes),Cint,(CVODEMemPtr,realtype,Cint,N_Vector),cvode_mem,t,k,dky)
 end
 
-CVodeGetDky(cvode_mem,t,k,dky) = __CVodeGetDky(convert(CVODEMemPtr,cvode_mem),t,k,convert(N_Vector,dky))
+CVodeGetDky(cvode_mem,t,k,dky) = __CVodeGetDky(convert(CVODEMemPtr,cvode_mem),t,Cint(k),convert(N_Vector,dky))
 
 function __CVodeGetQuad(cvode_mem::CVODEMemPtr,tret::Ptr{realtype},yQout::N_Vector)
     ccall((:CVodeGetQuad,libsundials_cvodes),Cint,(CVODEMemPtr,Ptr{realtype},N_Vector),cvode_mem,tret,yQout)
