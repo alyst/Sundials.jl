@@ -6,7 +6,15 @@ println("== start cvode Roberts example (simplified)")
 include("../examples/cvode_Roberts_simplified.jl")
 
 println("result at t=$(t[end]):")
-println(res[end,:], "\n")
+println(yout[end,:], "\n")
+
+@test size(yout) == (length(t),length(y0))
+@test length(ts1) < length(ts2)  #BDF should take less steps, even with less time
+@test minimum(abs(res3[end] - res[end,:]) .< 1e-16) # Difference at end should be 0
+@test minimum(abs(res4[end] - res2[end,:]) .< 1e-16) # Difference at end should be 0
+@test 0.1 ∈ ts2 #Intermediate specified values should be in the time
+loc = find((x)->x==0.1,ts2)
+@test minimum(abs(res4[loc...] - res2[2,:]) .< 1e-16) # Difference at t=0.1 should be 0
 
 println("== start cvode Roberts example")
 include("../examples/cvode_Roberts_dns.jl")
